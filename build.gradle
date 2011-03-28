@@ -1,0 +1,52 @@
+// ============================
+// First-timers, run:
+//   > gradle -i installGems test
+// Works with gradle-0.9.1
+// ============================
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+def cuke4DukeVersion = '0.4.3'
+def featuresDir = "src/test/features"
+repositories {
+    mavenCentral()
+    mavenRepo name:'cukes.info', urls:'http://cukes.info/maven'
+}
+configurations {
+    cuke.extendsFrom(testRuntime, runtime)
+}
+dependencies {
+    groovy 'org.codehaus.groovy:groovy:1.7.6'
+    testCompile 'junit:junit:4.8.2'
+    compile("cuke4duke:cuke4duke:$cuke4DukeVersion"){
+        exclude module: 'jruby-complete'
+    }
+    compile "org.picocontainer:picocontainer:2.11.2"
+    cuke "org.jruby:jruby-complete:1.5.2"
+}
+ant.properties['jruby.home'] = System.properties['jruby.home'] ?: new File(project.rootDir, ".gradle/.jruby").canonicalPath
+ant.mkdir(dir:ant.properties['jruby.home'])  
+ant.path(id:'jruby.classpath') {
+    pathElement(path: configurations.cuke.asPath)
+}
+task installGems (description: "Setup ONE-TIME first!") << {
+    ant.taskdef(name:"gem", classname:"cuke4duke.ant.GemTask", classpathref:"jruby.classpath")
+    ant.gem(args:"install cuke4duke --version $cuke4DukeVersion --source http://gemcutter.org/")
+    ant.gem(args:"install rspec --source http://gems.rubyforge.org/")
+}
+cuke = { tag ->
+    ant.taskdef(name:"cucumber", classname:"cuke4duke.ant.CucumberTask", classpathref:"jruby.classpath")
+    ant.cucumber(args:"--tag $tag --verbose --require $sourceSets.test.classesDir.path --color --format pretty --format junit --out $testResultsDir/cucumber $featuresDir --format html --out $testResultsDir/cucumber/report.html") {
+      classpath {
+        pathelement(location:sourceSets.test.classesDir.path)
+      }
+    }
+}
+task cucumber (description: "Run Cucumber BDD features", dependsOn: build) << {
+    cuke("~@ignore")
+}
+task cucumberWip (description: "Run Cucumber BDD features ONLY the work in progress ones", dependsOn: build) << {
+    cuke("@wip")
+}
+test.doLast {
+    cuke("~@ignore")
+}
