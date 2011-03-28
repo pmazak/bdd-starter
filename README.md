@@ -2,8 +2,9 @@ A BDD Starter App
 ======
 **Requires** [Gradle][gradle] (0.9+) to build/run.   
 
-Offers a sample cucumber feature file with step definitions coded in Groovy.    
-Stub created for writing step definitions in Java instead.   
+Offers a sample [Cucumber][cucumber] feature file with step definitions coded in Groovy.    
+Stub created for writing step definitions in Java too.  You can mix both!   
+Uses [cuke4duke][cuke4duke].  
 
 First time only
 ===
@@ -19,6 +20,8 @@ Subsequent times
 Feature file tricks
 ===
  * Put **@ignore** at the top of any feature file to ignore it in the cucumber suite.
- * Put **@wip** and cucumberWip task only runs features files labeled this way.
+ * Put **@wip** and the cucumberWip task only runs features files labeled this way.
  
 [gradle]:http://gradle.org/
+[cucumber]:http://cukes.info/
+[cuke4duke]:https://github.com/aslakhellesoy/cuke4duke/wiki
