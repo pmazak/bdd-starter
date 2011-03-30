@@ -2,9 +2,8 @@ A BDD Starter App
 ======
 **Requires** [Gradle][gradle] (0.9+) to build/run.   
 
-Offers a sample [Cucumber][cucumber] feature file with step definitions coded in Groovy.    
-Stub created for writing step definitions in Java too.  You can mix both!   
-Uses [cuke4duke][cuke4duke].  
+Creates a blank project with sample [Cucumber][cucumber] tests.  This is ready to go as a standalone app to BDD-test your real app.  
+Uses [cuke4duke][cuke4duke] so the step definitions are in Groovy/Java.  
 
 First time only
 ===
