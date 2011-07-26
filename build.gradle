@@ -26,7 +26,7 @@ dependencies {
 ant.properties['jruby.home'] = System.properties['jruby.home'] ?: new File(project.rootDir, ".gradle/.jruby").canonicalPath
 ant.mkdir(dir:ant.properties['jruby.home'])  
 ant.path(id:'jruby.classpath') {
-    pathElement(path: configurations.cuke.asPath)
+    ant.pathElement(path: configurations.cuke.asPath)
 }
 task installGems (description: "Setup ONE-TIME first!") << {
     ant.taskdef(name:"gem", classname:"cuke4duke.ant.GemTask", classpathref:"jruby.classpath")
@@ -35,9 +35,9 @@ task installGems (description: "Setup ONE-TIME first!") << {
 }
 cuke = { tag ->
     ant.taskdef(name:"cucumber", classname:"cuke4duke.ant.CucumberTask", classpathref:"jruby.classpath")
-    ant.cucumber(args:"--tag $tag --verbose --require $sourceSets.test.classesDir.path --color --format pretty --format junit --out $testResultsDir/cucumber $featuresDir --format html --out $testResultsDir/cucumber/report.html") {
-      classpath {
-        pathelement(location:sourceSets.test.classesDir.path)
+    ant.cucumber(args:"--tag $tag --verbose --require $sourceSets.test.classesDir.path --color --format pretty --format html --out $testResultsDir/cucumber-report.html $featuresDir") {
+      ant.classpath {
+        ant.pathelement(location:sourceSets.test.classesDir.path)
       }
     }
 }
