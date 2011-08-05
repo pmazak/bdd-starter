@@ -26,7 +26,7 @@ public class JavaSteps
     {
         URLConnection connection = new URL("http://cukes.info/").openConnection();
         connection.connect();
-           HttpURLConnection httpConnection = (HttpURLConnection) connection;
+        HttpURLConnection httpConnection = (HttpURLConnection) connection;
         assertEquals(200, httpConnection.getResponseCode());
     }
 }
