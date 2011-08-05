@@ -24,9 +24,9 @@ public class JavaSteps
 	@Then("^the site is up$")
 	public void siteAvailable() throws MalformedURLException, IOException
 	{
-		URLConnection connection = new URL("http://cukes.info/").openConnection();
-		connection.connect();
+        URLConnection connection = new URL("http://cukes.info/").openConnection();
+        connection.connect();
    	    HttpURLConnection httpConnection = (HttpURLConnection) connection;
-		assertEquals(200, httpConnection.getResponseCode());
+        assertEquals(200, httpConnection.getResponseCode());
 	}
 }
